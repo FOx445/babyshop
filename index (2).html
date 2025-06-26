@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>متجر عربات الأطفال</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --pink: #FFCCEA;
+      --blue: #BFECFF;
+      --accent: #FFFCFB;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Cairo', sans-serif;
+      background: var(--blue);
+    }
+    .hidden { display: none; }
+
+    /* رأس الصفحة */
+    header {
+      background-color: var(--pink);
+      color: #000;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    header img { height: 50px; }
+    header nav button {
+      background: none;
+      border: none;
+      color: #000;
+      font-weight: bold;
+      font-size: 1rem;
+      margin: 0 10px;
+      cursor: pointer;
+    }
+
+    /* الغيوم المتحركة */
+    .clouds {
+      background: url('clouds.png') repeat-x;
+      animation: moveClouds 60s linear infinite;
+      height: 120px;
+    }
+    @keyframes moveClouds {
+      from { background-position: 0 0; }
+      to   { background-position: 10000px 0; }
+    }
+
+    /* الرئيسية */
+    .hero {
+      padding: 4rem 1rem;
+      text-align: center;
+      color: #333;
+      background: linear-gradient(to bottom, var(--blue), var(--pink));
+      animation: fadeInUp 1.5s ease-in;
+    }
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 800px;
+      margin: 0 auto 2rem;
+      line-height: 1.8;
+    }
+    .btn {
+      background-color: var(--accent);
+      color: black;
+      padding: 1rem 2rem;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      transition: background 0.3s ease;
+    }
+    .btn:hover {
+      background-color: #fbbf24;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        transform: translateY(40px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    /* المنتجات */
+    .products {
+      padding: 2rem;
+      background-color: #fff;
+    }
+
+    .search-box {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .search-box input {
+      padding: 0.8rem;
+      width: 250px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      text-align: center;
+      transition: transform 0.3s;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+    }
+
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .card p {
+      font-weight: bold;
+      padding: 1rem;
+      font-size: 1.1rem;
+    }
+
+    /* التكبير (Modal) */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.8);
+    }
+
+    .modal-content {
+      margin: 5% auto;
+      display: block;
+      max-width: 90%;
+      max-height: 80vh;
+      border-radius: 10px;
+    }
+
+    .close {
+      position: absolute;
+      top: 20px;
+      left: 30px;
+      color: white;
+      font-size: 2rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    /* تواصل معنا */
+    .contact {
+      padding: 3rem 1rem;
+      background-color: #fff0f5;
+      text-align: center;
+    }
+
+    .contact h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+      max-width: 900px;
+      margin-inline: auto;
+    }
+
+    .contact-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .contact-card span {
+      font-size: 2rem;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    footer {
+      background: #333;
+      color: #fff;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="logo.png" alt="شعار المتجر">
+    <nav>
+      <button onclick="showSection('home')">الرئيسية</button>
+      <button onclick="showSection('products')">المنتجات</button>
+      <button onclick="showSection('contact')">تواصل معنا</button>
+    </nav>
+  </header>
+
+  <div class="clouds"></div>
+
+  <!-- الرئيسية -->
+  <section id="home" class="hero">
+    <h1>مرحبًا بكم في عالم الأطفال!</h1>
+    <p>
+      نؤمن أن طفلك يستحق الأفضل، ولهذا نوفر لكم أجود عربات الأطفال والدراجات الهوائية المصمّمة بعناية لتجمع بين الأمان، الراحة، والتصميم العصري.
+      <br><br>
+      نحن لا نبيع منتجات فحسب، بل نقدم لكم تجربة ممتعة وآمنة لطفلك، مستوحاة من حبنا للأطفال وحرصنا على سعادتهم. في متجرنا، تجدون تشكيلة مختارة بعناية من أحدث عربات الأطفال والدراجات الهوائية التي تناسب كل عمر وكل ذوق، بجودة عالية ومعايير سلامة عالمية.
+      <br><br>
+      دعونا نكون جزءًا من لحظاتكم الجميلة، ونساعدكم في اختيار الرفيق المثالي لمغامرات أطفالكم الأولى.
+    </p>
+    <a href="#" class="btn" onclick="showSection('products')">عرض المنتجات</a>
+  </section>
+
+  <!-- المنتجات -->
+  <section id="products" class="products hidden">
+    <div class="search-box">
+      <input type="text" id="search" placeholder="ابحث عن رقم المنتج..." onkeyup="filterProducts()">
+    </div>
+    <div class="grid" id="productGrid"></div>
+  </section>
+
+  <!-- تواصل معنا -->
+  <section id="contact" class="contact hidden">
+    <h2>تواصل معنا</h2>
+    <div class="contact-grid">
+      <div class="contact-card">
+        <span>📞</span>
+        <p><a href="https://wa.me/qr/6GDNROP3DRZFB1" target="_blank">راسلنا على واتساب</a></p>
+      </div>
+      <div class="contact-card">
+        <span>📧</span>
+        <p><a href="mailto:info@babyshop.com">info@babyshop.com</a></p>
+      </div>
+      <div class="contact-card">
+        <span>📍</span>
+        <p>دمشق – سوريا</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>© 2025 جميع الحقوق محفوظة - متجر الأطفال</footer>
+
+  <!-- Modal التكبير -->
+  <div id="imageModal" class="modal" onclick="this.style.display='none'">
+    <span class="close" onclick="document.getElementById('imageModal').style.display='none'">&times;</span>
+    <img class="modal-content" id="modalImage">
+  </div>
+
+  <script>
+    const products = [
+      "BH-108", "BH-611", "SC-608", "BH-903", "566Y", "128-1", "C12", "103-2", "108-1"
+    ];
+
+    function showSection(id) {
+      ['home', 'products', 'contact'].forEach(sec => {
+        document.getElementById(sec).classList.add('hidden');
+      });
+      document.getElementById(id).classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderProducts() {
+      const grid = document.getElementById('productGrid');
+      grid.innerHTML = "";
+      products.forEach(code => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <img src="images/${code}.jpg" alt="${code}" onclick="showModal(this)">
+          <p>${code}</p>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function filterProducts() {
+      const val = document.getElementById('search').value.toLowerCase();
+      document.querySelectorAll('.card').forEach(card => {
+        card.style.display = card.innerText.toLowerCase().includes(val) ? 'block' : 'none';
+      });
+    }
+
+    function showModal(img) {
+      const modal = document.getElementById("imageModal");
+      const modalImg = document.getElementById("modalImage");
+      modal.style.display = "block";
+      modalImg.src = img.src;
+    }
+
+    renderProducts();
+  </script>
+
+</body>
+</html>
